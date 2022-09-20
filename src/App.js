@@ -136,7 +136,7 @@ class App extends Component {
           <input
             type="text"
             value={searchInput}
-            onChangeInput={this.onChangeInput}
+            onChange={this.onChangeInput}
           />
         </div>
 
