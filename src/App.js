@@ -80,32 +80,49 @@ const initialHistoryList = [
 // Replace your code here
 
 class App extends Component {
-  state = {searchInput: '',finalHistoryList:initialHistoryList}
+  state = {searchInput: '', finalHistoryList: initialHistoryList}
 
-
-  onChangeInput =(event)=>{
-      const {searchInput}=this.state
-      entered=event.target.key
-      this.setState({searchInput:entered})
-      
+  onChangeInput = event => {
+    const {searchInput} = this.state
+    const entered = event.target.key
+    this.setState({searchInput: entered})
   }
 
-   onDelete=()=>{
-       const {finalHistoryList}=this.state;
-       
-       
-        const remainingLists=finalHistoryList.filter(each=>each.id)
+  onDelete = () => {
+    const {finalHistoryList} = this.state
 
-        this.setState({finalHistoryList:remainingLists})
-    }
+    const remainingLists = finalHistoryList.filter(each => !each.id)
 
+    this.setState({finalHistoryList: remainingLists})
+  }
 
   render() {
-    const {searchInput,finalHistoryList} = this.state
-    searchedList=finalHistoryList.filter(each=>each.title.includes(searchInput))
-    
+    const {searchInput, finalHistoryList} = this.state
+    const searchedList = finalHistoryList.filter(each =>
+      each.title.includes(searchInput),
+    )
 
-   
+    const searchedLsitLength = searchedList.legth
+    const isFoundedList = searchedLsitLength > 0
+
+    onFoundedList = () => {
+      ;<ul className="innerbodyContainer">
+        {searchedList.map(each => (
+          <li key={each.id} className="eachlistcontainer">
+            <p className="time">{each.timeAccessed}</p>
+            <img src={each.logoUrl} className="imageicon" alt="icon" />
+            <p className="time">{each.title}</p>
+            <p className="site">{each.domainUrl}</p>
+            <img
+              src="https://assets.ccbp.in/frontend/react-js/destinations-search-icon-img.png"
+              className="deleteicon"
+              onClick={this.onDelete}
+            />
+          </li>
+        ))}
+      </ul>
+    }
+
     return (
       <>
         <div className="header">
@@ -116,24 +133,19 @@ class App extends Component {
               className="searchicon"
             />
           </div>
-          <input type="text" value={searchInput} onChangeInput={this.onChangeInput} />
+          <input
+            type="text"
+            value={searchInput}
+            onChangeInput={this.onChangeInput}
+          />
         </div>
 
-        <div className="body"
-          <ul className="innerbodyContainer">
-            {searchedList.map(each => (
-              <li key={each.id} className="eachlistcontainer" >
-                <p className="time">{each.timeAccessed}</p>
-                <img src={each.logoUrl} className="imageicon" alt="icon" />
-                <p className="time">{each.title}</p>
-                <p className="site">{each.domainUrl}</p>
-                <img
-                  src="https://assets.ccbp.in/frontend/react-js/destinations-search-icon-img.png"
-                  className="deleteicon" onClick={this.onDelete}
-                />
-              </li>
-            ))}
-          </ul>
+        <div className="body">
+          {isFoundedList ? (
+            this.onFounded()
+          ) : (
+            <p className="results">No results found</p>
+          )}
         </div>
       </>
     )
@@ -141,3 +153,4 @@ class App extends Component {
 }
 
 export default App
+
