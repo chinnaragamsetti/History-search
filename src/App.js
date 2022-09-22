@@ -96,18 +96,11 @@ class App extends Component {
     this.setState({finalHistoryList: remainingLists})
   }
 
-  render() {
-    const {searchInput, finalHistoryList} = this.state
-    const searchedList = finalHistoryList.filter(each =>
-      each.title.includes(searchInput),
-    )
-
-    const searchedLsitLength = searchedList.legth
-    const isFoundedList = searchedLsitLength > 0
-
-    onFoundedList = () => {
-      ;<ul className="innerbodyContainer">
-        {searchedList.map(each => (
+  onFoundedList = () => {
+    const searchedLists = searchedList
+    return (
+      <ul className="innerbodyContainer">
+        {searchedLists.map(each => (
           <li key={each.id} className="eachlistcontainer">
             <p className="time">{each.timeAccessed}</p>
             <img src={each.logoUrl} className="imageicon" alt="icon" />
@@ -121,7 +114,16 @@ class App extends Component {
           </li>
         ))}
       </ul>
-    }
+    )
+  }
+
+  render() {
+    const {searchInput, finalHistoryList} = this.state
+    const searchedList = finalHistoryList.filter(each =>
+      each.title.includes(searchInput),
+    )
+
+    const isFoundedList = searchedList.Length > 0
 
     return (
       <>
@@ -142,7 +144,7 @@ class App extends Component {
 
         <div className="body">
           {isFoundedList ? (
-            this.onFounded()
+            this.onFoundedList()
           ) : (
             <p className="results">No results found</p>
           )}
@@ -153,4 +155,5 @@ class App extends Component {
 }
 
 export default App
+
 
